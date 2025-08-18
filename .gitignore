@@ -39,3 +39,10 @@
 
 # debug information files
 *.dwo
+
+# Folders
+/SDL2
+/SDL2_mixer
+/video
+
+*.mp3
