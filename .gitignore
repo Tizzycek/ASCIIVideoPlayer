@@ -45,4 +45,6 @@
 /SDL2_mixer
 /video
 
+/.idea
+
 *.mp3

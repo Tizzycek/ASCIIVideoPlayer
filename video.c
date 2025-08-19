@@ -2,6 +2,7 @@
 // Created by Tiziano on 11.07.2025.
 //
 #include "video.h"
+#ifdef _WIN32
 
 void clear_screen() {
     COORD topLeft = {0, 0};
@@ -158,3 +159,5 @@ bool load_all(const char*frames_dir, const int fps, const int frame_count, const
 
     return true;
 }
+
+#endif
