@@ -13,7 +13,13 @@ Il file `config`, posto nella stessa directory dell'eseguibile, viene letto da *
 
 **ASCIIVideoPlayer** caricherà i frames in memoria e comincerà la riproduzione di essi e dell'audio relativo.
 
-Il programma terminerà in autonomia quando sia la traccia audio sia i frames in riproduzione saranno esauriti.  
+Il programma terminerà in autonomia quando sia la traccia audio sia i frames in riproduzione saranno esauriti.
+
+### Conversione fotogrammi
+
+**ASCIIVideoPlayer** non provvede direttamente a convertire un video in fotogrammi e i fotogrammi in formato *ASCII*. È necessario utilizzare degli strumenti esterni per eseguire le conversioni.
+
+Se si utilizza un sistema con Windows si consiglia di utilizzare come dimensioni dei fotogrammi $120*30$, per rispettare la dimensione predefinita del terminale.
 
 ### Librerie esterne
 

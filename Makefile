@@ -1,6 +1,7 @@
 # Compilatori
 CC = gcc
 CXX = g++
+WINDRES = windres
 
 # Flags di compilazione
 CFLAGS = -Wall -Wextra
@@ -11,7 +12,7 @@ INCLUDES = -I./SDL2/include/
 LIBS = -L./SDL2/lib/ -lSDL2 -lSDL2_mixer
 
 # File oggetto
-OBJS = video.o audio.o main.o
+OBJS = video.o audio.o main.o resources.o
 
 # Nome dell'eseguibile finale
 TARGET = ASCIIVideoPlayer
@@ -22,6 +23,10 @@ all: $(TARGET)
 
 $(TARGET): $(OBJS)
 	$(CXX) $^ -o $@ $(INCLUDES) $(LIBS) $(CXXFLAGS)
+
+# Regola per compilare le risorse
+resources.o: icon/resources.rc icon/icon.png
+	$(WINDRES) $< -o $@
 
 video.o: video.c video.h
 	$(CC) -c $< -o $@ $(INCLUDES) $(LIBS) $(CFLAGS)
