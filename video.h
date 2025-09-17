@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <pthread.h>
 #include <windows.h>
 #include <io.h>  // Per _access()
 #include <direct.h>  // Per _mkdir()
@@ -41,6 +42,8 @@ void play_frames(AsciiFrame *, int );
 void free_frames(AsciiFrame *);
 
 bool load_all(const char*, const int, const int, const AsciiFrame*);
+
+void*loading_spinner();
 
 #ifdef __cplusplus
 }

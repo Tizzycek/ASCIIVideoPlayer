@@ -28,7 +28,7 @@ bool startAudio(const std::string &path) {
 
     std::cout << "Playing audio... Press Enter to stop.\n";
 
-    // Attendi la fine della riproduzione o input utente
+    // Attendi la fine della riproduzione
     while (Mix_PlayingMusic())
         SDL_Delay(100);
 

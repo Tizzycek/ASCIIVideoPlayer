@@ -45,6 +45,9 @@ AsciiFrame* load_frames(const char *dir_path) {
     AsciiFrame *tail = NULL;
     int total_frames = 0;
 
+    pthread_t spinner;
+    pthread_create(&spinner, NULL, loading_spinner, NULL);
+
     snprintf(search_path, sizeof(search_path), "%s\\*", dir_path);
     hFind = FindFirstFile(search_path, &find_file_data);
 
@@ -94,11 +97,13 @@ AsciiFrame* load_frames(const char *dir_path) {
         }
 
         total_frames++;
-        printf("Caricato frame %d (%d linee)\n", total_frames, new_frame->line_count);
+        //printf("Caricato frame %d (%d linee)\n", total_frames, new_frame->line_count);
 
     } while (FindNextFile(hFind, &find_file_data) != 0);
 
     FindClose(hFind);
+    pthread_cancel(spinner);
+    pthread_join(spinner, NULL);
     printf("Totale frame caricati: %d\n", total_frames);
     return head;
 }
@@ -107,7 +112,7 @@ AsciiFrame* load_frames(const char *dir_path) {
 void play_frames(AsciiFrame *head, int fps) {
     if (fps <= 0) fps = 1;
     int delay_ms = 1000 / fps;
-    int frame_num = 1;
+    //int frame_num = 1;
 
     while (head != NULL) {
         clear_screen();
@@ -137,6 +142,22 @@ void free_frames(AsciiFrame *head) {
         AsciiFrame *next_frame = head->next;
         free(head);
         head = next_frame;
+    }
+}
+
+void*loading_spinner() {
+    int i = 0;
+    const char signs [4] = {'|', '/', '-', '\\'};
+
+    pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
+    pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
+
+    printf("Caricamento in corso. Non chiudere questa finestra.  ");
+    while (true) {
+        printf("\b%c", signs[i%4]);
+        fflush(stdout);
+        i+=1;
+        Sleep(100);
     }
 }
 

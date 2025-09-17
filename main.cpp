@@ -12,14 +12,15 @@
 #include <thread>
 #include <fstream>
 
-#define FILE ".\\config"
+#define FILE ".\\config2"
 
 using namespace std;
 
-bool load_info(string& frame_path, string& music_path, int& fps) {
+// Controllo del file
+bool load_info(string& frame_path, string& music_path, unsigned int& fps) {
     ifstream file(FILE);
 
-    // 1. Controllo apertura file
+    // 1. Apertura
     if (!file.is_open()) {
         cerr << "Errore: Impossibile aprire il file di configurazione" << endl;
         return false;
@@ -47,7 +48,7 @@ bool load_info(string& frame_path, string& music_path, int& fps) {
     try {
         fps = stoi(fps_str);  // Converte stringa a intero
     } catch (const invalid_argument&) {
-        cerr << "Errore: Gli FPS devono essere un numero valido (got '" << fps_str << "')" << endl;
+        cerr << "Errore: Gli FPS devono essere un numero valido (rilevato '" << fps_str << "')" << endl;
         return false;
     } catch (const out_of_range&) {
         cerr << "Errore: Valore FPS fuori dal range consentito" << endl;
@@ -56,25 +57,26 @@ bool load_info(string& frame_path, string& music_path, int& fps) {
 
     // 5. Controllo valori sensati
     if (fps <= 0) {
-        cerr << "Errore: Gli FPS devono essere > 0 (got " << fps << ")" << endl;
+        cerr << "Errore: Gli FPS devono essere > 0 (rilevato " << fps << ")" << endl;
         return false;
     }
 
-    // 6. Verifica che il file non abbia altre righe (opzionale)
+    // 6. Verifica righe extra (opzionale)
     if (string extra_line; getline(file, extra_line)) {
         cerr << "Warning: Il file di configurazione contiene righe extra (ignorate)" << endl;
     }
 
-    return true;  // Tutto ok!
+    return true;
 }
 
 int main() {
-    string frame_path, music_path;
-    int fps;
+    string frame_path;
+    string music_path;
+    unsigned int fps;
 
     if (!load_info(frame_path, music_path, fps)) {
         cerr << "Errore nel caricamento delle configurazioni!" << endl;
-        return 3;
+        return 2;
     }
 
     AsciiFrame* frames = load_frames(frame_path.c_str());
@@ -89,8 +91,6 @@ int main() {
 
     first.join();
     second.join();
-
-    free_frames(frames);
 
     delete[] frames;
     return 0;

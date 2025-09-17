@@ -11,6 +11,8 @@ CXXFLAGS = -Wall -Wextra
 INCLUDES = -I./SDL2/include/
 LIBS = -L./SDL2/lib/ -lSDL2 -lSDL2_mixer
 
+LIBS += -pthread
+
 # File oggetto
 OBJS = video.o audio.o main.o resources.o
 
