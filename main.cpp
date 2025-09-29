@@ -79,7 +79,7 @@ int main() {
         return 2;
     }
 
-    AsciiFrame* frames = load_frames(frame_path.c_str());
+    FrameNode* frames = load_frames(frame_path.c_str());
 
     if (frames == nullptr) {
         cerr << "Errore allocazione memoria!" << endl;

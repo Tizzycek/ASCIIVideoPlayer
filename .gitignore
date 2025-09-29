@@ -51,3 +51,5 @@
 config2
 
 *.mp3
+
+*.temp

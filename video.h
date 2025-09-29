@@ -16,39 +16,36 @@
 #include <io.h>  // Per _access()
 #include <direct.h>  // Per _mkdir()
 
-typedef struct AsciiLine {
-    char *content;
-    struct AsciiLine *next;
-} AsciiLine;
-
-typedef struct AsciiFrame {
-    AsciiLine *lines;
-    int line_count;
-    struct AsciiFrame *next;
+typedef struct {
+    char **lines;      // array di stringhe
+    int line_count;    // numero di righe
 } AsciiFrame;
+
+typedef struct FrameNode {
+    AsciiFrame frame;
+    struct FrameNode *next;
+} FrameNode;
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-void clear_screen();
+char* read_line_dynamic(FILE *);
 
-void add_line_to_frame(AsciiFrame *, const char *);
+int compare_filenames(const void *, const void *);
 
-AsciiFrame* load_frames(const char *);
+DWORD WINAPI spinner_thread(LPVOID param);
 
-void play_frames(AsciiFrame *, int );
+FrameNode* load_frames(const char */*, int **/);
 
-void free_frames(AsciiFrame *);
+void play_frames(FrameNode *, int);
 
-bool load_all(const char*, const int, const int, const AsciiFrame*);
-
-void*loading_spinner();
+void free_frames(FrameNode *);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif //VIDEO_H
+#endif //_WIN32
 
 #endif
