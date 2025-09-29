@@ -9,10 +9,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-// ====================
-// Lettura riga dinamica
-// ====================
-
 char* read_line_dynamic(FILE *file) {
     size_t size = 128;
     size_t len = 0;
@@ -42,19 +38,11 @@ char* read_line_dynamic(FILE *file) {
     return buffer;
 }
 
-// ====================
-// Ordinamento file
-// ====================
-
 int compare_filenames(const void *a, const void *b) {
     const char *fa = *(const char **)a;
     const char *fb = *(const char **)b;
     return strcmp(fa, fb);
 }
-
-// ====================
-// Spinner thread
-// ====================
 
 DWORD WINAPI spinner_thread(LPVOID param) {
     HANDLE hEvent = (HANDLE)param;
@@ -71,10 +59,6 @@ DWORD WINAPI spinner_thread(LPVOID param) {
     return 0;
 }
 
-// ====================
-// Caricamento frame
-// ====================
-
 FrameNode* load_frames(const char *dir_path/*, int *out_frame_count*/) {
     WIN32_FIND_DATA find_file_data;
     HANDLE hFind;
@@ -82,7 +66,7 @@ FrameNode* load_frames(const char *dir_path/*, int *out_frame_count*/) {
     char **file_list = NULL;
     int file_count = 0;
 
-    // Avvia spinner
+    // spinner
     HANDLE hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
     HANDLE hThread = CreateThread(NULL, 0, spinner_thread, hEvent, 0, NULL);
 
@@ -98,7 +82,7 @@ FrameNode* load_frames(const char *dir_path/*, int *out_frame_count*/) {
         return NULL;
     }
 
-    // Raccogli i nomi dei file
+    // Ricerca dei nomi dei vari frames
     do {
         if (strcmp(find_file_data.cFileName, ".") == 0 ||
             strcmp(find_file_data.cFileName, "..") == 0) {
@@ -119,10 +103,9 @@ FrameNode* load_frames(const char *dir_path/*, int *out_frame_count*/) {
         return NULL;
     }
 
-    // Ordina i file
+    // Funzione per riordinarli
     qsort(file_list, file_count, sizeof(char*), compare_filenames);
 
-    // Carica i frame
     FrameNode *head = NULL, *tail = NULL;
     for (int i = 0; i < file_count; i++) {
         char filepath[MAX_PATH];
@@ -155,7 +138,6 @@ FrameNode* load_frames(const char *dir_path/*, int *out_frame_count*/) {
         tail = node;
     }
 
-    // Libera lista dei nomi file
     for (int i = 0; i < file_count; i++)
         free(file_list[i]);
 
@@ -173,10 +155,6 @@ FrameNode* load_frames(const char *dir_path/*, int *out_frame_count*/) {
     return head;
 }
 
-// ====================
-// Riproduzione frame
-// ====================
-
 void play_frames(FrameNode *head, int fps) {
     if (fps <= 0) fps = 1;
     int delay_ms = 1000 / fps;
@@ -184,7 +162,7 @@ void play_frames(FrameNode *head, int fps) {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
     while (head != NULL) {
-        // Pulisce schermo
+        // pulizia
         COORD coord = {0, 0};
         DWORD written;
         CONSOLE_SCREEN_BUFFER_INFO csbi;
@@ -193,7 +171,7 @@ void play_frames(FrameNode *head, int fps) {
         FillConsoleOutputCharacter(hConsole, ' ', console_size, coord, &written);
         SetConsoleCursorPosition(hConsole, coord);
 
-        // Scrive tutto il frame
+        // stampa frame
         for (int i = 0; i < head->frame.line_count; i++) {
             DWORD w;
             WriteConsoleA(hConsole, head->frame.lines[i],
@@ -205,10 +183,6 @@ void play_frames(FrameNode *head, int fps) {
         head = head->next;
     }
 }
-
-// ====================
-// Libera memoria
-// ====================
 
 void free_frames(FrameNode *head) {
     while (head != NULL) {
