@@ -4,8 +4,10 @@ CXX = g++
 
 ifeq ($(OS), Windows_NT)
 	WINDRES = windres
+	RM = del
 else
 	WINDRES = 
+	RM = rm
 endif
 
 # Flags di compilazione
@@ -52,8 +54,4 @@ main.o: main.cpp audio.h video.h
 	$(CXX) -c $< -o $@ $(INCLUDES) $(LIBS) $(CXXFLAGS)
 
 clean:
-	ifeq ($(OS), Windows_NT)
-		del -f $(OBJS) $(TARGET)
-	else
-		rm -f $(OBJS) $(TARGET)
-	endif
+	$(RM) -f $(OBJS) $(TARGET)
