@@ -52,4 +52,8 @@ main.o: main.cpp audio.h video.h
 	$(CXX) -c $< -o $@ $(INCLUDES) $(LIBS) $(CXXFLAGS)
 
 clean:
-	rm -f $(OBJS) $(TARGET)
+	ifeq ($(OS), Windows_NT)
+		del -f $(OBJS) $(TARGET)
+	else
+		rm -f $(OBJS) $(TARGET)
+	endif
