@@ -3,8 +3,8 @@
 //
 
 #ifdef _WIN32
-
 #define SDL_MAIN_HANDLED
+#endif
 
 #include <iostream>
 #include "audio.h"
@@ -92,17 +92,7 @@ int main() {
     first.join();
     second.join();
 
-    delete[] frames;
+    free_frames(frames);
+
     return 0;
 }
-
-#else
-
-#include <iostream>
-
-int main() {
-    std::cerr << "To be implemented!" << std::endl;
-    abort();
-}
-
-#endif
