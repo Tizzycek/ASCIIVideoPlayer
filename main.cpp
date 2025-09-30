@@ -14,9 +14,9 @@
 #include <fstream>
 
 #ifdef _WIN32
-#define FILE ".\\config2"
+#define FILE ".\\config"
 #else
-#define FILE "./config2"
+#define FILE "./config"
 #endif
 
 using namespace std;

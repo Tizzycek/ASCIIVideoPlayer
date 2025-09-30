@@ -27,13 +27,15 @@ Se si utilizza un sistema con Windows si consiglia di utilizzare come dimensioni
 
 ## Compilazione
 
-La compilazione dell'eseguibile avviene in maniera automatizzata tramite `makefile`. 
+La compilazione dell'eseguibile avviene in maniera automatizzata tramite `Makefile`. 
 
 Il file non è stato generato da `CMake`. È opportuno fare quindi attenzione a sue eventuali modifiche.
 
 ### Linux
 
-A oggi non esiste ancora una versione implementata per i sistemi linux.
+La compilazione è semiautomatica tramite `make`.
+
+È necessario scaricare le librerie `SDL2` e `SDL2_mixer`. Dopo l'installazione, sarà necessario modificare il file `Makefile` per indicare la posizione delle librerie.
 
 ### Windows
 

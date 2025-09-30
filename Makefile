@@ -7,11 +7,17 @@ WINDRES = windres
 CFLAGS = -Wall -Wextra
 CXXFLAGS = -Wall -Wextra
 
-# Directory di inclusione e librerie SDL2
+# Directory di inclusione librerie SDL2
+# Il percorso specificato è per Windows, se le librerie SDL2 e SDL2_mixer si trovano nella stessa cartella.
+# Per esempio, SDL2_mixer.h si troverà in ./SDL2/include/SDL2/SDL2_mixer.h
+# Stesso discorso valido per le librerie compilate.
+# Su linux è necessario modificare questo percorso, affinché il compilatore trovi nella cartella di installazione corretta le librerie.
 INCLUDES = -I./SDL2/include/
 LIBS = -L./SDL2/lib/ -lSDL2 -lSDL2_mixer
 
-LIBS += -pthread
+ifeq ($(OS), Linux)
+	LIBS += -pthread
+endif
 
 # File oggetto
 OBJS = video.o audio.o main.o resources.o
