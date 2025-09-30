@@ -200,7 +200,7 @@ void* spinner_thread(void *arg) {
 }
 
 // Caricamento frame (Linux)
-FrameNode* load_frames(const char *dir_path, int *out_frame_count) {
+FrameNode* load_frames(const char *dir_path/*, int *out_frame_count*/) {
     DIR *dir = opendir(dir_path);
     if (!dir) {
         perror("Errore apertura directory");
@@ -261,7 +261,7 @@ FrameNode* load_frames(const char *dir_path, int *out_frame_count) {
     for (int i = 0; i < file_count; i++) free(file_list[i]);
     free(file_list);
 
-    if (out_frame_count) *out_frame_count = file_count;
+    //if (out_frame_count) *out_frame_count = file_count;
 
     spinner_running = 0;
     pthread_join(spinner, NULL);

@@ -46,7 +46,7 @@ void play_frames(FrameNode *, int);
 
 void* spinner_thread(void *);
 
-FrameNode* load_frames(const char *, int *);
+FrameNode* load_frames(const char */*, int **/);
 
 void play_frames(FrameNode *, int);
 
