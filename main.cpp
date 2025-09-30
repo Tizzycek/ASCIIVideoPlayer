@@ -6,13 +6,18 @@
 #define SDL_MAIN_HANDLED
 #endif
 
+
 #include <iostream>
 #include "audio.h"
 #include "video.h"
 #include <thread>
 #include <fstream>
 
+#ifdef _WIN32
 #define FILE ".\\config2"
+#else
+#define FILE "./config2"
+#endif
 
 using namespace std;
 

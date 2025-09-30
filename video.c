@@ -124,6 +124,7 @@ FrameNode* load_frames(const char *dir_path/*, int *out_frame_count*/) {
             frame.line_count++;
         }
         fclose(file);
+        free(line);
 
         FrameNode *node = malloc(sizeof(FrameNode));
         node->frame = frame;

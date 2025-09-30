@@ -5,8 +5,13 @@
 #ifndef AUDIO_H
 #define AUDIO_H
 
+#ifdef _WIN32
 #include "SDL2/include/SDL2/SDL.h"
 #include "SDL2/include/SDL2/SDL_mixer.h"
+#else
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
+#endif
 #include <iostream>
 #include <cstdbool>
 
