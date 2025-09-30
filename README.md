@@ -33,9 +33,11 @@ Il file non è stato generato da `CMake`. È opportuno fare quindi attenzione a 
 
 ### Linux
 
-La compilazione è semiautomatica tramite `make`.
+La compilazione è automatica tramite `make`.
 
-È necessario scaricare le librerie `SDL2` e `SDL2_mixer`. Dopo l'installazione, sarà necessario modificare il file `Makefile` per indicare la posizione delle librerie.
+È necessario scaricare le librerie `SDL2` e `SDL2_mixer`. 
+- Se l'installazione avviene tramite utente `sudo` e globalmente nel sistema, la compilazione dovrebbe essere eseguita senza problemi;
+- Se l'installazione avviene in maniera locale o comunque differente da quella sopra citata, sarà necessario modificare il file `Makefile` per indicare la posizione delle librerie.
 
 ### Windows
 

@@ -1,17 +1,20 @@
 # Compilatori
 CC = gcc
 CXX = g++
-WINDRES = windres
+
+ifeq ($(OS), Windows_NT)
+	WINDRES = windres
+else
+	WINDRES = 
+endif
 
 # Flags di compilazione
 CFLAGS = -Wall -Wextra
 CXXFLAGS = -Wall -Wextra
 
 # Directory di inclusione librerie SDL2
-# Il percorso specificato è per Windows, se le librerie SDL2 e SDL2_mixer si trovano nella stessa cartella.
-# Per esempio, SDL2_mixer.h si troverà in ./SDL2/include/SDL2/SDL2_mixer.h
-# Stesso discorso valido per le librerie compilate.
-# Su linux è necessario modificare questo percorso, affinché il compilatore trovi nella cartella di installazione corretta le librerie.
+# Su Linux, i percorsi vanno modificati solo se le librerie SDL2 non sono state installate globalmente nel sistema.
+# Su Windows, i percorsi vanno modificati solo se le librerie si trovano in un percorso diverso da quello già specificato. 
 INCLUDES = -I./SDL2/include/
 LIBS = -L./SDL2/lib/ -lSDL2 -lSDL2_mixer
 
@@ -20,7 +23,10 @@ ifeq ($(OS), Linux)
 endif
 
 # File oggetto
-OBJS = video.o audio.o main.o resources.o
+OBJS = video.o audio.o main.o
+ifeq ($(OS), Windows_NT)
+	OBJS += resources.o
+endif
 
 # Nome dell'eseguibile finale
 TARGET = ASCIIVideoPlayer
