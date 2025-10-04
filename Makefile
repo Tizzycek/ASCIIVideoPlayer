@@ -45,13 +45,13 @@ resources.o: icon/resources.rc icon/icon.png
 	$(WINDRES) $< -o $@
 
 video.o: video.c video.h
-	$(CC) -c $< -o $@ $(INCLUDES) $(LIBS) $(CFLAGS)
+	$(CC) -c $< -o $@ $(CFLAGS)
 
 audio.o: audio.cpp audio.h
 	$(CXX) -c $< -o $@ $(INCLUDES) $(LIBS) $(CXXFLAGS)
 
 main.o: main.cpp audio.h video.h
-	$(CXX) -c $< -o $@ $(INCLUDES) $(LIBS) $(CXXFLAGS)
+	$(CXX) -c $< -o $@ $(CXXFLAGS)
 
 clean:
 	$(RM) -f $(OBJS) $(TARGET)
