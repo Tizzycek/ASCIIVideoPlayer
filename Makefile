@@ -2,17 +2,19 @@
 CC = gcc
 CXX = g++
 
-ifeq ($(OS), Windows_NT)
-	WINDRES = windres
-	RM = del
-else
-	WINDRES = 
-	RM = rm
-endif
-
 # Flags di compilazione
 CFLAGS = -Wall -Wextra
 CXXFLAGS = -Wall -Wextra
+
+ifeq ($(OS), Windows_NT)
+	CXXFLAGS += -D_WIN32_WINNT=0x0600
+	WINDRES = windres
+	RM = del
+else
+	WINDRES =
+	RM = rm
+endif
+
 
 # Directory di inclusione librerie SDL2
 # Su Linux, i percorsi vanno modificati solo se le librerie SDL2 non sono state installate globalmente nel sistema.

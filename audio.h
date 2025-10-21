@@ -13,8 +13,8 @@
 #include <SDL2/SDL_mixer.h>
 #endif
 #include <iostream>
-#include <cstdbool>
+#include <future>
 
-bool startAudio(const std::string&);
+void startAudio(const std::string&, std::promise<void>& prom);
 
 #endif //AUDIO_H

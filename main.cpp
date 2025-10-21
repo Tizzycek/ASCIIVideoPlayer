@@ -62,13 +62,18 @@ void load_info(string& frame_path, string& music_path, unsigned int& fps) {
 int main() {
     string frame_path;
     string music_path;
+
     unsigned int fps;
+
+    thread audio;
+    thread video;
 
     try {
         load_info(frame_path, music_path, fps);
     } catch (exception& e) {
         cerr << "Errore: " << e.what() << endl;
-        return 2;
+        getchar();
+        return 1;
     }
 
     FrameNode* frames = load_frames(frame_path.c_str());
@@ -76,11 +81,31 @@ int main() {
     if (frames == nullptr)
         return 1;
 
-    thread first(play_frames, frames, fps);
-    thread second(startAudio, music_path);
+    promise<void> promise;
+    future<void> future = promise.get_future();
 
-    first.join();
-    second.join();
+
+    try {
+        audio = thread(startAudio, music_path, ref(promise));
+        video = thread(play_frames, frames, fps);
+
+        future.get();
+    } catch (const exception& e) {
+        cerr << "Errore: " << e.what() << endl;
+
+        if (video.joinable())
+            video.join();
+
+        if (audio.joinable())
+            audio.join();
+
+        free_frames(frames);
+        getchar();
+        return 2;
+    }
+
+    audio.join();
+    video.join();
 
     free_frames(frames);
 
